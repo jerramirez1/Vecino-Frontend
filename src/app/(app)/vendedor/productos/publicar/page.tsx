@@ -2,9 +2,9 @@ import { redirect } from 'next/navigation'
 import { PanelShell } from '@/components/dashboard/panel-shell'
 import { obtenerUsuarioActual } from '@/lib/auth/usuario'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import MisNegociosList from './MisNegociosList'
+import PublicarProductoForm from './PublicarProductoForm'
 
-export default async function MisNegociosPage() {
+export default async function PublicarProductoPage() {
   const supabase = await createSupabaseServerClient()
   const {
     data: { user }
@@ -21,8 +21,8 @@ export default async function MisNegociosPage() {
   }
 
   return (
-    <PanelShell rol="vendedor" titulo="Mis negocios" vistaActiva="negocios">
-      <MisNegociosList />
+    <PanelShell rol="vendedor" titulo="Publicar producto" vistaActiva="productos">
+      <PublicarProductoForm />
     </PanelShell>
   )
 }

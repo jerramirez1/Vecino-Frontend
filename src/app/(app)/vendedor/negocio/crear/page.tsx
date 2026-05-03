@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation'
+import { PanelShell } from '@/components/dashboard/panel-shell'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { obtenerUsuarioActual } from '@/lib/auth/usuario'
 import CrearNegocioForm from './CrearNegocioForm'
@@ -22,8 +23,8 @@ export default async function CrearNegocioPage() {
     }
 
     return (
-        <div>
+        <PanelShell rol="vendedor" titulo="Crear negocio" vistaActiva="negocios">
             <CrearNegocioForm />
-        </div>
+        </PanelShell>
     )
 }

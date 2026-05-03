@@ -1,4 +1,23 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL
+export interface Negocio {
+    id: string
+    nombre: string
+    categoria: string
+    direccion: string
+    ciudad: string
+    horario: string
+    descripcion: string
+    activo: boolean
+}
+
+const getApiUrl = () => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL
+
+    if (!apiUrl) {
+        throw new Error('Falta configurar NEXT_PUBLIC_API_URL')
+    }
+
+    return apiUrl
+}
 
 // Obtener todos los negocios
 export const obtenerNegocios = async (filtros?: {
@@ -9,14 +28,17 @@ export const obtenerNegocios = async (filtros?: {
     if (filtros?.categoria) params.append('categoria', filtros.categoria)
     if (filtros?.ciudad) params.append('ciudad', filtros.ciudad)
 
-    const res = await fetch(`${API_URL}/negocios?${params}`)
+    const res = await fetch(`${getApiUrl()}/negocios?${params}`, {
+        cache: 'no-store'
+    })
     const data = await res.json()
     return data
 }
 
 // Obtener mis negocios (requiere token)
 export const obtenerMisNegocios = async (token: string) => {
-    const res = await fetch(`${API_URL}/negocios/mis-negocios`, {
+    const res = await fetch(`${getApiUrl()}/negocios/mis-negocios`, {
+        cache: 'no-store',
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -34,7 +56,7 @@ export const crearNegocio = async (token: string, datos: {
     ciudad: string
     horario: string
 }) => {
-    const res = await fetch(`${API_URL}/negocios`, {
+    const res = await fetch(`${getApiUrl()}/negocios`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -59,7 +81,7 @@ export const actualizarNegocio = async (
         horario: string
     }>
 ) => {
-    const res = await fetch(`${API_URL}/negocios/${id}`, {
+    const res = await fetch(`${getApiUrl()}/negocios/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -73,7 +95,7 @@ export const actualizarNegocio = async (
 
 // Eliminar negocio (requiere token)
 export const eliminarNegocio = async (token: string, id: string) => {
-    const res = await fetch(`${API_URL}/negocios/${id}`, {
+    const res = await fetch(`${getApiUrl()}/negocios/${id}`, {
         method: 'DELETE',
         headers: {
             Authorization: `Bearer ${token}`
