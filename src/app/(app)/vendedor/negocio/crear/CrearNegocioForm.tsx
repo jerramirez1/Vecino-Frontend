@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { esBypassAuth } from '@/lib/auth/usuario'
 import { crearNegocio } from '@/services/negocio.service'
 import { createSupabaseBrowserClient } from '@/lib/supabase/client'
 
@@ -36,15 +37,17 @@ export default function CrearNegocioForm() {
         setError('')
 
         try {
-            const supabase = createSupabaseBrowserClient()
-            const { data: { session } } = await supabase.auth.getSession()
+            const BYPASS_AUTH = esBypassAuth()
+            const session = BYPASS_AUTH
+                ? null
+                : (await createSupabaseBrowserClient().auth.getSession()).data.session
 
-            if (!session) {
+            if (!session && !BYPASS_AUTH) {
                 router.push('/iniciar-sesion')
                 return
             }
 
-            const resultado = await crearNegocio(session.access_token, form)
+            const resultado = await crearNegocio(session?.access_token ?? 'mock-token', form)
 
             if (!resultado.success) {
                 setError(resultado.mensaje)

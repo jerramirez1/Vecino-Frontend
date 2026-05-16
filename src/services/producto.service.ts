@@ -34,7 +34,7 @@ interface DatosCrearProducto {
 }
 
 const getApiUrl = () => {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_USE_MOCK_API === 'true' ? 'http://localhost:4010/api/mock' : '')
 
   if (!apiUrl) {
     throw new Error('Falta configurar NEXT_PUBLIC_API_URL')
@@ -52,6 +52,25 @@ export const obtenerProductos = async (): Promise<ApiResponse<Producto[]>> => {
 }
 
 export const obtenerMisProductos = async (token: string): Promise<ApiResponse<Producto[]>> => {
+  if (token === 'mock-token') {
+    return {
+      success: true,
+      data: [
+        {
+          id: 'prod-mock-1',
+          negocio_id: 'mock-1',
+          nombre: 'Producto de Prueba',
+          descripcion: 'Un producto publicado como prueba visual.',
+          precio: 15000,
+          imagen_url: 'https://placehold.co/400',
+          activo: true,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }
+      ]
+    }
+  }
+
   const res = await fetch(`${getApiUrl()}/productos/mis-productos`, {
     cache: 'no-store',
     headers: {
@@ -66,6 +85,19 @@ export const crearProducto = async (
   token: string,
   datos: DatosCrearProducto
 ): Promise<ApiResponse<Producto>> => {
+  if (token === 'mock-token') {
+    return {
+      success: true,
+      data: {
+        id: `prod-mock-${Date.now()}`,
+        ...datos,
+        activo: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }
+    }
+  }
+
   const res = await fetch(`${getApiUrl()}/productos`, {
     method: 'POST',
     headers: {

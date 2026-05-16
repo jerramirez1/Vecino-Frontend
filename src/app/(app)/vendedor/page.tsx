@@ -1,8 +1,7 @@
 import { Clock3, MapPin, Store, PlusCircle } from "lucide-react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { PanelShell } from "@/components/dashboard/panel-shell";
-import { obtenerUsuarioActual } from "@/lib/auth/usuario";
+import { obtenerUsuarioParaRuta } from "@/lib/auth/usuario";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 function Horario({ dia, abierto = true }: { dia: string; abierto?: boolean }) {
@@ -19,19 +18,7 @@ function Horario({ dia, abierto = true }: { dia: string; abierto?: boolean }) {
 
 export default async function VendedorPage() {
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/iniciar-sesion");
-  }
-
-  const usuario = await obtenerUsuarioActual(supabase, user.id, user.user_metadata);
-
-  if (usuario.rol !== "vendedor") {
-    redirect("/perfil");
-  }
+  const usuario = await obtenerUsuarioParaRuta(supabase, "vendedor");
 
   return (
     <PanelShell rol="vendedor" titulo="Perfil del Negocio" vistaActiva="vendedor">

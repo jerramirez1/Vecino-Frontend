@@ -7,10 +7,12 @@ export interface Negocio {
     horario: string
     descripcion: string
     activo: boolean
+    calificacion_promedio: number
+    total_resenas: number
 }
 
 const getApiUrl = () => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_USE_MOCK_API === 'true' ? 'http://localhost:4010/api/mock' : '')
 
     if (!apiUrl) {
         throw new Error('Falta configurar NEXT_PUBLIC_API_URL')
@@ -35,8 +37,32 @@ export const obtenerNegocios = async (filtros?: {
     return data
 }
 
+// Obtener negocio por id
+export const obtenerNegocioPorId = async (id: string) => {
+    const res = await fetch(`${getApiUrl()}/negocios/${id}`, {
+        cache: 'no-store'
+    })
+    const data = await res.json()
+    return data
+}
+
 // Obtener mis negocios (requiere token)
 export const obtenerMisNegocios = async (token: string) => {
+    if (token === 'mock-token') {
+        return {
+            success: true,
+            data: [{
+                id: 'mock-1',
+                nombre: 'Negocio Prueba (Mock)',
+                categoria: 'General',
+                direccion: 'Calle Falsa 123',
+                ciudad: 'Armenia',
+                horario: 'L-V 8am - 6pm',
+                descripcion: 'Negocio de prueba visual',
+                activo: true
+            }]
+        }
+    }
     const res = await fetch(`${getApiUrl()}/negocios/mis-negocios`, {
         cache: 'no-store',
         headers: {

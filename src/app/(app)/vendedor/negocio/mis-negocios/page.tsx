@@ -1,20 +1,12 @@
 import { redirect } from 'next/navigation'
 import { PanelShell } from '@/components/dashboard/panel-shell'
-import { obtenerUsuarioActual } from '@/lib/auth/usuario'
+import { obtenerUsuarioParaRuta } from '@/lib/auth/usuario'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import MisNegociosList from './MisNegociosList'
 
 export default async function MisNegociosPage() {
   const supabase = await createSupabaseServerClient()
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    redirect('/iniciar-sesion')
-  }
-
-  const usuario = await obtenerUsuarioActual(supabase, user.id, user.user_metadata)
+  const usuario = await obtenerUsuarioParaRuta(supabase, 'vendedor')
 
   if (usuario.rol !== 'vendedor') {
     redirect('/perfil')

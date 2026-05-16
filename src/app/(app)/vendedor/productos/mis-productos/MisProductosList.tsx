@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { esBypassAuth } from '@/lib/auth/usuario'
 import { createSupabaseBrowserClient } from '@/lib/supabase/client'
 import { obtenerMisProductos, type Producto } from '@/services/producto.service'
 
@@ -23,17 +24,17 @@ export default function MisProductosList() {
   useEffect(() => {
     const cargarProductos = async () => {
       try {
-        const supabase = createSupabaseBrowserClient()
-        const {
-          data: { session }
-        } = await supabase.auth.getSession()
+        const BYPASS_AUTH = esBypassAuth()
+        const session = BYPASS_AUTH
+          ? null
+          : (await createSupabaseBrowserClient().auth.getSession()).data.session
 
-        if (!session) {
+        if (!session && !BYPASS_AUTH) {
           router.push('/iniciar-sesion')
           return
         }
 
-        const resultado = await obtenerMisProductos(session.access_token)
+        const resultado = await obtenerMisProductos(session?.access_token ?? 'mock-token')
 
         if (!resultado.success) {
           setError(resultado.mensaje || 'No fue posible cargar tus productos')

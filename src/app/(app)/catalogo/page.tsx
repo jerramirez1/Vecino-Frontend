@@ -1,7 +1,8 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { PanelShell } from '@/components/dashboard/panel-shell'
-import { obtenerUsuarioActual } from '@/lib/auth/usuario'
+import { obtenerUsuarioParaRuta } from '@/lib/auth/usuario'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { obtenerProductos, type Producto } from '@/services/producto.service'
 
@@ -14,15 +15,7 @@ const formatearPrecio = (precio: number) =>
 
 export default async function CatalogoPage() {
   const supabase = await createSupabaseServerClient()
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    redirect('/iniciar-sesion')
-  }
-
-  const usuario = await obtenerUsuarioActual(supabase, user.id, user.user_metadata)
+  const usuario = await obtenerUsuarioParaRuta(supabase, 'usuario')
 
   if (usuario.rol !== 'usuario') {
     redirect('/vendedor/productos/mis-productos')
@@ -83,7 +76,11 @@ export default async function CatalogoPage() {
                 <div>
                   <h4 className="text-lg font-semibold text-vecino-text">{producto.nombre}</h4>
                   <p className="text-sm text-vecino-text-muted">
-                    {producto.negocio?.nombre || 'Comercio local'} · {producto.negocio?.ciudad || 'Ciudad'}
+                    {producto.negocio ? (
+                      <Link href={`/negocio/${producto.negocio.id}`} className="font-medium text-vecino-brand hover:underline">
+                        {producto.negocio.nombre}
+                      </Link>
+                    ) : 'Comercio local'} · {producto.negocio?.ciudad || 'Ciudad'}
                   </p>
                 </div>
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { esBypassAuth } from '@/lib/auth/usuario'
 import { createSupabaseBrowserClient } from '@/lib/supabase/client'
 import { obtenerMisNegocios } from '@/services/negocio.service'
 
@@ -25,17 +26,17 @@ export default function MisNegociosList() {
   useEffect(() => {
     const cargarNegocios = async () => {
       try {
-        const supabase = createSupabaseBrowserClient()
-        const {
-          data: { session }
-        } = await supabase.auth.getSession()
+        const BYPASS_AUTH = esBypassAuth()
+        const session = BYPASS_AUTH
+          ? null
+          : (await createSupabaseBrowserClient().auth.getSession()).data.session
 
-        if (!session) {
+        if (!session && !BYPASS_AUTH) {
           router.push('/iniciar-sesion')
           return
         }
 
-        const resultado = await obtenerMisNegocios(session.access_token)
+        const resultado = await obtenerMisNegocios(session?.access_token ?? 'mock-token')
 
         if (!resultado.success) {
           setError(resultado.mensaje || 'No fue posible cargar tus negocios')
