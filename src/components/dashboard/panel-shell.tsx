@@ -1,12 +1,10 @@
 import {
   Bell,
-  ChartNoAxesCombined,
   ClipboardList,
   Grid2X2,
   LifeBuoy,
   MapPin,
   Settings,
-  Shield,
   UserRound,
 } from "lucide-react";
 import Link from "next/link";
@@ -16,7 +14,7 @@ import { RolUsuario } from "@/lib/auth/usuario";
 type PanelShellProps = {
   rol: RolUsuario;
   titulo: string;
-  vistaActiva: "perfil" | "vendedor";
+  vistaActiva: "perfil" | "catalogo" | "vendedor" | "negocios" | "productos";
   children: ReactNode;
 };
 
@@ -55,22 +53,16 @@ export function PanelShell({ rol, titulo, vistaActiva, children }: PanelShellPro
           activo: vistaActiva === "vendedor",
         },
         {
-          label: "Identity",
-          href: "/vendedor",
+          label: "Negocios",
+          href: "/vendedor/negocio/mis-negocios",
           icon: <ClipboardList size={20} />,
-          activo: vistaActiva === "vendedor",
+          activo: vistaActiva === "negocios",
         },
         {
-          label: "Location",
-          href: "/vendedor",
+          label: "Productos",
+          href: "/vendedor/productos/mis-productos",
           icon: <MapPin size={20} />,
-          activo: false,
-        },
-        {
-          label: "Analytics",
-          href: "/vendedor",
-          icon: <ChartNoAxesCombined size={20} />,
-          activo: false,
+          activo: vistaActiva === "productos",
         },
       ]
     : [
@@ -81,16 +73,10 @@ export function PanelShell({ rol, titulo, vistaActiva, children }: PanelShellPro
           activo: vistaActiva === "perfil",
         },
         {
-          label: "Seguridad",
-          href: "/perfil",
-          icon: <Shield size={20} />,
-          activo: false,
-        },
-        {
-          label: "Notificaciones",
-          href: "/perfil",
+          label: "Catalogo",
+          href: "/catalogo",
           icon: <Bell size={20} />,
-          activo: false,
+          activo: vistaActiva === "catalogo",
         },
       ];
 

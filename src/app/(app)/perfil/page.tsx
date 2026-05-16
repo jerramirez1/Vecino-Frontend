@@ -1,20 +1,12 @@
 import { MapPin, UserRound } from "lucide-react";
 import { redirect } from "next/navigation";
 import { PanelShell } from "@/components/dashboard/panel-shell";
-import { obtenerUsuarioActual } from "@/lib/auth/usuario";
+import { obtenerUsuarioParaRuta } from "@/lib/auth/usuario";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export default async function PerfilPage() {
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/iniciar-sesion");
-  }
-
-  const usuario = await obtenerUsuarioActual(supabase, user.id, user.user_metadata);
+  const usuario = await obtenerUsuarioParaRuta(supabase, "usuario");
 
   if (usuario.rol === "vendedor") {
     redirect("/vendedor");

@@ -1,0 +1,39 @@
+Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at <unknown> (https://supabase.com/dashboard/project/_/settings/api)
+    at <unknown> (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:72:121)
+    at iP (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:76:5272)
+    at ix (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:76:5625)
+    at handler (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:76:6121)
+    at <unknown> (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:18:36765)
+    at <unknown> (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:18:36731)
+    at async tC (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:18:33295)
+Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at <unknown> (https://supabase.com/dashboard/project/_/settings/api)
+    at <unknown> (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:72:121)
+    at iP (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:76:5272)
+    at ix (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:76:5625)
+    at handler (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:76:6121)
+    at <unknown> (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:18:36765)
+    at <unknown> (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:18:36731)
+    at async tC (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:18:33295)
+Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at <unknown> (https://supabase.com/dashboard/project/_/settings/api)
+    at <unknown> (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:72:121)
+    at iP (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:76:5272)
+    at ix (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:76:5625)
+    at handler (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:76:6121)
+    at <unknown> (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:18:36765)
+    at <unknown> (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:18:36731)
+    at async tC (C:\Users\Admin\Software-Vecino-Frontend\.next\server\chunks\[root-of-the-server]__0zlb0p2._.js:18:33295)
