@@ -4,6 +4,7 @@ import {
   Grid2X2,
   LifeBuoy,
   MapPin,
+  Package,
   Settings,
   UserRound,
 } from "lucide-react";
@@ -14,7 +15,7 @@ import { RolUsuario } from "@/lib/auth/usuario";
 type PanelShellProps = {
   rol: RolUsuario;
   titulo: string;
-  vistaActiva: "perfil" | "catalogo" | "vendedor" | "negocios" | "productos";
+  vistaActiva: "perfil" | "catalogo" | "vendedor" | "negocios" | "productos" | "pedidos";
   children: ReactNode;
 };
 
@@ -64,6 +65,12 @@ export function PanelShell({ rol, titulo, vistaActiva, children }: PanelShellPro
           icon: <MapPin size={20} />,
           activo: vistaActiva === "productos",
         },
+        {
+          label: "Pedidos",
+          href: "/vendedor/pedidos",
+          icon: <Package size={20} />,
+          activo: vistaActiva === "pedidos",
+        },
       ]
     : [
         {
@@ -77,6 +84,12 @@ export function PanelShell({ rol, titulo, vistaActiva, children }: PanelShellPro
           href: "/catalogo",
           icon: <Bell size={20} />,
           activo: vistaActiva === "catalogo",
+        },
+        {
+          label: "Mis Pedidos",
+          href: "/pedidos",
+          icon: <ClipboardList size={20} />,
+          activo: vistaActiva === "pedidos",
         },
       ];
 

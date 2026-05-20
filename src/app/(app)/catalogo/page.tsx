@@ -5,13 +5,7 @@ import { PanelShell } from '@/components/dashboard/panel-shell'
 import { obtenerUsuarioParaRuta } from '@/lib/auth/usuario'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { obtenerProductos, type Producto } from '@/services/producto.service'
-
-const formatearPrecio = (precio: number) =>
-  new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: 'COP',
-    maximumFractionDigits: 0
-  }).format(precio)
+import { ListaProductos } from './lista-productos'
 
 export default async function CatalogoPage() {
   const supabase = await createSupabaseServerClient()
@@ -58,48 +52,7 @@ export default async function CatalogoPage() {
           </div>
         ) : null}
 
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {productos.map((producto) => (
-            <article key={producto.id} className="vecino-card overflow-hidden">
-              <div className="relative h-52 w-full bg-vecino-surface-soft">
-                <Image
-                  src={producto.imagen_url}
-                  alt={producto.nombre}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1280px) 50vw, 33vw"
-                  unoptimized
-                />
-              </div>
-
-              <div className="space-y-3 p-5">
-                <div>
-                  <h4 className="text-lg font-semibold text-vecino-text">{producto.nombre}</h4>
-                  <p className="text-sm text-vecino-text-muted">
-                    {producto.negocio ? (
-                      <Link href={`/negocio/${producto.negocio.id}`} className="font-medium text-vecino-brand hover:underline">
-                        {producto.negocio.nombre}
-                      </Link>
-                    ) : 'Comercio local'} · {producto.negocio?.ciudad || 'Ciudad'}
-                  </p>
-                </div>
-
-                <p className="line-clamp-3 text-sm leading-6 text-vecino-text-muted">
-                  {producto.descripcion}
-                </p>
-
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-lg font-semibold text-vecino-brand">
-                    {formatearPrecio(producto.precio)}
-                  </span>
-                  <span className="rounded-full bg-vecino-surface-soft px-3 py-1 text-xs font-semibold text-vecino-text-muted">
-                    {producto.negocio?.categoria || 'Producto'}
-                  </span>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+        <ListaProductos productos={productos} />
       </div>
     </PanelShell>
   )
