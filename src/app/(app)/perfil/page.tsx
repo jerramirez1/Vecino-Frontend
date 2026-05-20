@@ -27,7 +27,7 @@ export default async function PerfilPage() {
             </div>
             <div>
               <p className="mb-1.5 text-[1.05rem] font-semibold text-vecino-text-muted">Correo electronico</p>
-              <div className="rounded-xl bg-vecino-surface-soft px-4 py-3 text-[1.1rem] leading-tight">{usuario.email ?? user.email}</div>
+              <div className="rounded-xl bg-vecino-surface-soft px-4 py-3 text-[1.1rem] leading-tight">{usuario.email}</div>
             </div>
             <div>
               <p className="mb-1.5 text-[1.05rem] font-semibold text-vecino-text-muted">Rol en plataforma</p>
