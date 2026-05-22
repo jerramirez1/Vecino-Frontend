@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "mock:api": "node scripts/mock-api.mjs",
+    "db:setup": "node scripts/supabase-setup.mjs",
+    "db:setup:local": "node --env-file=.env.local scripts/supabase-setup.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

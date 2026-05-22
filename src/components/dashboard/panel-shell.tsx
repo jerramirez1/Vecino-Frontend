@@ -1,12 +1,11 @@
 import {
   Bell,
-  ChartNoAxesCombined,
   ClipboardList,
   Grid2X2,
   LifeBuoy,
   MapPin,
+  Package,
   Settings,
-  Shield,
   UserRound,
 } from "lucide-react";
 import Link from "next/link";
@@ -16,7 +15,7 @@ import { RolUsuario } from "@/lib/auth/usuario";
 type PanelShellProps = {
   rol: RolUsuario;
   titulo: string;
-  vistaActiva: "perfil" | "vendedor";
+  vistaActiva: "perfil" | "catalogo" | "vendedor" | "negocios" | "productos" | "pedidos";
   children: ReactNode;
 };
 
@@ -55,22 +54,22 @@ export function PanelShell({ rol, titulo, vistaActiva, children }: PanelShellPro
           activo: vistaActiva === "vendedor",
         },
         {
-          label: "Identity",
-          href: "/vendedor",
+          label: "Negocios",
+          href: "/vendedor/negocio/mis-negocios",
           icon: <ClipboardList size={20} />,
-          activo: vistaActiva === "vendedor",
+          activo: vistaActiva === "negocios",
         },
         {
-          label: "Location",
-          href: "/vendedor",
+          label: "Productos",
+          href: "/vendedor/productos/mis-productos",
           icon: <MapPin size={20} />,
-          activo: false,
+          activo: vistaActiva === "productos",
         },
         {
-          label: "Analytics",
-          href: "/vendedor",
-          icon: <ChartNoAxesCombined size={20} />,
-          activo: false,
+          label: "Pedidos",
+          href: "/vendedor/pedidos",
+          icon: <Package size={20} />,
+          activo: vistaActiva === "pedidos",
         },
       ]
     : [
@@ -81,16 +80,16 @@ export function PanelShell({ rol, titulo, vistaActiva, children }: PanelShellPro
           activo: vistaActiva === "perfil",
         },
         {
-          label: "Seguridad",
-          href: "/perfil",
-          icon: <Shield size={20} />,
-          activo: false,
+          label: "Catalogo",
+          href: "/catalogo",
+          icon: <Bell size={20} />,
+          activo: vistaActiva === "catalogo",
         },
         {
-          label: "Notificaciones",
-          href: "/perfil",
-          icon: <Bell size={20} />,
-          activo: false,
+          label: "Mis Pedidos",
+          href: "/pedidos",
+          icon: <ClipboardList size={20} />,
+          activo: vistaActiva === "pedidos",
         },
       ];
 

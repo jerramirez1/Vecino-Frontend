@@ -32,15 +32,18 @@ export default function RegistroPage() {
     setError("");
     setExito("");
     setLoading(true);
-
+    
+    // Registro de usuario en Supabase Auth con metadatos personalizados
     const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
       options: {
+        // Redirección tras confirmar el correo
         emailRedirectTo: `${window.location.origin}/auth/confirm?next=/panel`,
         data: {
           nombre_completo: nombre,
           rol,
+          // Tipo de cuenta simplificado para lógica de negocio
           tipo_cuenta: rol === "vendedor" ? "vendedor" : "comprador",
         },
       },

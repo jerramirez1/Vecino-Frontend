@@ -13,6 +13,8 @@
   --vecino-border: #ddd8d3;
   --vecino-success: #b8e8c6;
   --vecino-error: #ba2d2d;
+  --font-body: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
 }
 
 @theme inline {
