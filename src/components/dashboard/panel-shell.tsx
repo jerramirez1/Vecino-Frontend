@@ -15,7 +15,7 @@ import { RolUsuario } from "@/lib/auth/usuario";
 type PanelShellProps = {
   rol: RolUsuario;
   titulo: string;
-  vistaActiva: "perfil" | "catalogo" | "vendedor" | "negocios" | "productos" | "pedidos";
+  vistaActiva: "perfil" | "catalogo" | "mapa" | "vendedor" | "negocios" | "productos" | "pedidos";
   children: ReactNode;
 };
 
@@ -84,6 +84,12 @@ export function PanelShell({ rol, titulo, vistaActiva, children }: PanelShellPro
           href: "/catalogo",
           icon: <Bell size={20} />,
           activo: vistaActiva === "catalogo",
+        },
+        {
+          label: "Mapa",
+          href: "/mapa",
+          icon: <MapPin size={20} />,
+          activo: vistaActiva === "mapa",
         },
         {
           label: "Mis Pedidos",

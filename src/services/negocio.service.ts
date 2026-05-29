@@ -81,6 +81,8 @@ export const crearNegocio = async (token: string, datos: {
     direccion: string
     ciudad: string
     horario: string
+    latitud?: number | null
+    longitud?: number | null
 }) => {
     const res = await fetch(`${getApiUrl()}/negocios`, {
         method: 'POST',
@@ -105,6 +107,8 @@ export const actualizarNegocio = async (
         direccion: string
         ciudad: string
         horario: string
+        latitud: number | null
+        longitud: number | null
     }>
 ) => {
     const res = await fetch(`${getApiUrl()}/negocios/${id}`, {

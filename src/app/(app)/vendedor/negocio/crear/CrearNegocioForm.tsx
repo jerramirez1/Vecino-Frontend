@@ -16,14 +16,36 @@ export default function CrearNegocioForm() {
     const router = useRouter()
     const [cargando, setCargando] = useState(false)
     const [error, setError] = useState('')
+    const [geoMsg, setGeoMsg] = useState('')
     const [form, setForm] = useState({
         nombre: '',
         descripcion: '',
         categoria: '',
         direccion: '',
         ciudad: 'Armenia',
-        horario: ''
+        horario: '',
+        latitud: '',
+        longitud: ''
     })
+
+    const usarMiUbicacion = () => {
+        if (typeof navigator === 'undefined' || !navigator.geolocation) {
+            setGeoMsg('Tu navegador no soporta geolocalizacion')
+            return
+        }
+        setGeoMsg('Obteniendo ubicacion...')
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                setForm((f) => ({
+                    ...f,
+                    latitud: pos.coords.latitude.toFixed(6),
+                    longitud: pos.coords.longitude.toFixed(6)
+                }))
+                setGeoMsg('Ubicacion capturada')
+            },
+            () => setGeoMsg('No se pudo obtener tu ubicacion (revisa los permisos)')
+        )
+    }
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -47,7 +69,18 @@ export default function CrearNegocioForm() {
                 return
             }
 
-            const resultado = await crearNegocio(session?.access_token ?? 'mock-token', form)
+            const payload = {
+                nombre: form.nombre,
+                descripcion: form.descripcion,
+                categoria: form.categoria,
+                direccion: form.direccion,
+                ciudad: form.ciudad,
+                horario: form.horario,
+                latitud: form.latitud ? Number(form.latitud) : null,
+                longitud: form.longitud ? Number(form.longitud) : null
+            }
+
+            const resultado = await crearNegocio(session?.access_token ?? 'mock-token', payload)
 
             if (!resultado.success) {
                 setError(resultado.mensaje)
@@ -164,6 +197,43 @@ export default function CrearNegocioForm() {
                             placeholder="Ej: Lunes a Sábado 6am - 8pm"
                             className="w-full rounded-xl border border-vecino-border bg-white px-4 py-3 text-sm text-vecino-text outline-none focus:border-vecino-brand"
                         />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-vecino-text mb-1">
+                            Ubicacion en el mapa
+                        </label>
+                        <p className="text-xs text-vecino-text-muted mb-2">
+                            Necesaria para que tu negocio aparezca como marcador en el mapa.
+                        </p>
+                        <div className="flex gap-3">
+                            <input
+                                name="latitud"
+                                value={form.latitud}
+                                onChange={handleChange}
+                                inputMode="decimal"
+                                placeholder="Latitud (ej: 4.533889)"
+                                className="w-full rounded-xl border border-vecino-border bg-white px-4 py-3 text-sm text-vecino-text outline-none focus:border-vecino-brand"
+                            />
+                            <input
+                                name="longitud"
+                                value={form.longitud}
+                                onChange={handleChange}
+                                inputMode="decimal"
+                                placeholder="Longitud (ej: -75.681389)"
+                                className="w-full rounded-xl border border-vecino-border bg-white px-4 py-3 text-sm text-vecino-text outline-none focus:border-vecino-brand"
+                            />
+                        </div>
+                        <button
+                            type="button"
+                            onClick={usarMiUbicacion}
+                            className="mt-2 rounded-xl border border-vecino-border bg-vecino-surface-soft px-4 py-2 text-sm font-semibold text-vecino-brand"
+                        >
+                            Usar mi ubicacion actual
+                        </button>
+                        {geoMsg && (
+                            <span className="ml-3 text-xs text-vecino-text-muted">{geoMsg}</span>
+                        )}
                     </div>
 
                     <button
