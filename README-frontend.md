@@ -10,6 +10,7 @@ Interfaz web del sistema **Vecino**, una plataforma de marketplace hiperlocal pa
 - [Instalacion](#instalacion)
 - [Variables de entorno](#variables-de-entorno)
 - [Ejecucion](#ejecucion)
+- [Pruebas E2E (Playwright)](#pruebas-e2e-playwright)
 - [Autenticacion con Supabase](#autenticacion-con-supabase)
 - [Interfaces y flujos implementados](#interfaces-y-flujos-implementados)
 - [Guia de diseno visual](#guia-de-diseno-visual)
@@ -61,7 +62,9 @@ Software-Vecino-Frontend/
 |  |- components/auth/              # Componentes reutilizables de auth
 |  |- lib/supabase/                 # Clientes browser/server/proxy
 |  |- proxy.ts                      # Proxy global (antes middleware)
-|- .env.example
+|- .env.test.example
+|- e2e/                            # Pruebas E2E con Playwright
+|- playwright.config.ts
 |- README-frontend.md
 ```
 
@@ -92,6 +95,66 @@ npm run build
 # Produccion local
 npm run start
 ```
+
+## Pruebas E2E (Playwright)
+
+Tests de punta a punta con **Playwright** y **Supabase real**. Playwright arranca el servidor de desarrollo automaticamente; no hace falta correr `npm run dev` en otra terminal.
+
+### Configuracion inicial (una sola vez)
+
+```bash
+# 1. Copiar plantilla y completar credenciales de Supabase
+cp .env.test.example .env.test
+# Editar .env.test: URL, publishable key y service_role (Dashboard > API)
+
+# 2. Instalar navegador y crear usuarios de prueba en Supabase
+npm run test:e2e:setup
+```
+
+### Ejecucion manual
+
+```bash
+# Correr los 3 tests (headless)
+npm run test:e2e
+
+# Modo interactivo (depurar paso a paso)
+npm run test:e2e:ui
+
+# Ver reporte HTML del ultimo run
+npm run test:e2e:report
+```
+
+### Usuarios de prueba
+
+Creados por `npm run db:setup:test` (tambien se ejecuta automaticamente antes de cada run):
+
+| Email | Rol | Test |
+|---|---|---|
+| `e2e-test@example.com` | consumidor | E2E-01 |
+| `e2e-consumidor@example.com` | consumidor | E2E-03 |
+| `e2e-vendedor@example.com` | vendedor | E2E-02 |
+
+Contrasena: valor de `E2E_TEST_PASSWORD` en `.env.test` (por defecto `12345678`).
+
+### Estructura
+
+```txt
+e2e/
+  auth.spec.ts       # Registro y login
+  compra.spec.ts     # Perfil consumidor
+  productos.spec.ts  # Panel vendedor
+  fixtures.ts        # Credenciales y helper de login
+  global-setup.mjs   # Seed de usuarios antes de los tests
+playwright.config.ts
+.env.test            # Variables E2E (no commitear)
+.env.test.example    # Plantilla documentada
+```
+
+### Notas
+
+- Si ya tienes `npm run dev` corriendo en el puerto 3000, Playwright lo reutiliza.
+- Para re-crear usuarios manualmente: `npm run db:setup:test`
+- Reportes y capturas de fallos van a `playwright-report/` y `test-results/` (ignorados por git).
 
 ## Autenticacion con Supabase
 

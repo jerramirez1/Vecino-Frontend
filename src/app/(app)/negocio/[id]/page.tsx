@@ -15,9 +15,9 @@ export default async function NegocioPerfilPage({ params }: { params: Promise<{ 
 
   if (!negocioRes.success || !negocioRes.data) {
     return (
-      <PanelShell rol={user ? 'usuario' : 'invitado'} titulo="Error" vistaActiva="catalogo">
+      <PanelShell rol={'usuario'} titulo="Error" vistaActiva="catalogo">
         <div className="p-8 text-center text-red-600 font-bold">
-          Error al cargar el negocio: {JSON.stringify(negocioRes)} <br/>
+          Error al cargar el negocio: {JSON.stringify(negocioRes)} <br />
           ID intentado: {id}
         </div>
       </PanelShell>
@@ -29,7 +29,7 @@ export default async function NegocioPerfilPage({ params }: { params: Promise<{ 
   const resenas = resenasRes.success ? resenasRes.data : []
 
   return (
-    <PanelShell rol={user ? 'usuario' : 'invitado'} titulo="Perfil del Negocio" vistaActiva="catalogo">
+    <PanelShell rol={'usuario'} titulo="Error" vistaActiva="catalogo">
       <div className="mx-auto max-w-4xl space-y-8">
         <div className="vecino-card overflow-hidden">
           {negocio.imagen_url && (
@@ -51,7 +51,7 @@ export default async function NegocioPerfilPage({ params }: { params: Promise<{ 
                 <p className="text-sm text-vecino-text-muted">{negocio.total_resenas} reseñas</p>
               </div>
             </div>
-            
+
             <div className="mt-6 border-t border-vecino-border pt-6">
               <h2 className="text-xl font-semibold text-vecino-text">Acerca del negocio</h2>
               <p className="mt-3 leading-relaxed text-vecino-text-muted">{negocio.descripcion}</p>
@@ -70,9 +70,9 @@ export default async function NegocioPerfilPage({ params }: { params: Promise<{ 
           </div>
         </div>
 
-        <ResenasSeccion 
-          negocioId={negocio.id} 
-          resenasIniciales={resenas} 
+        <ResenasSeccion
+          negocioId={negocio.id}
+          resenasIniciales={resenas}
           usuarioId={user?.id}
         />
       </div>
